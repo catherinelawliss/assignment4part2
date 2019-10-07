@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<head>
+	<title> Joe's Hotdogs</title>
+	<style>
+		body
+		{
+			text-align: center;
+			font-family: sans-serif; 
+
+		}
+		form
+		{
+			display: inline-block;
+		}
+		input[type=text]
+		{
+			width: 100%;
+			padding: 10px 10px;
+			box-sizing: border-box;
+			border: 2px solid #000;
+		}
+		p
+		{
+			font-size: 14px;
+		}
+		h2
+		{
+			font-size: 12px;
+		}
+	</style>
+</head>
+<body>
+	<h1> Welcome to Joe's Hotdogs </h1>
+	<p> Place an order below: </p>
+	<form id = "order">
+		<h2> How many hotdogs ($3.25)? </h2> <br>
+		<input type = "text" name = "dogs" id = "dogs"><br>
+		<h2> How many french fries ($2.00)? </h2> <br>
+		<input type = "text" name = "fries" id = "fries"><br>
+		<h2> How many drinks ($1.50)? <h2> <br>
+		<input type = "text" name = "drinks" id = "drinks" ><br>
+		<button type = "button" value = "Order" onclick = "processOrder()"> Order! </button><br>
+	</form>
+
+	<script language = javascript>
+		function processOrder()
+		{
+			//reads in user input from form
+			var numdogs = document.getElementById("dogs").value; 
+			var numfries = document.getElementById("fries").value;
+			var numdrinks = document.getElementById("drinks").value;
+
+			//associative arrays to sotre items, prices, and quantities
+			var itemsprices = {"dogs": 3.25, "fries": 2.00, "drinks": 1.50};
+			var itemsquant = {"dogs": numdogs, "fries": numfries, "drinks": numdrinks};
+
+			var ordertotal = (itemsprices['dogs']* itemsquant['dogs']) + (itemsprices['fries']* itemsquant['fries']) + (itemsprices['drinks']* itemsquant['drinks']);
+
+			//stores total discount recieved
+			var totaldiscount;
+			//stores total with discount and tax
+			var total;
+
+			//checks for discount, before tax
+			if (checkDiscount(ordertotal) == true)
+				totaldiscount = ordertotal * .1;
+			else
+				totaldiscount = 0;
+
+			//updates total with discount
+			total = ordertotal - totaldiscount;
+			total = total;
+			//console.log(total);
+
+
+			//applies Mass meals tax
+			var tax = salesTax(total);
+			//console.log(tax);
+			total += tax;
+			console.log(total);
+		
+			var dogsordered = itemsquant['dogs'];
+			var friesordered =itemsquant['fries'];
+			var drinksordered = itemsquant['drinks'];
+			var itemsordered = dogsordered + friesordered + drinksordered;
+
+			document.write("Hotdogs ordered: " + dogsordered + "<br>" + " Fries ordered: " + friesordered + "<br>" + " Drinks ordered: " + drinksordered + "<br>" + "Subtotal: $" + ordertotal.toFixed(2) + "<br>" + "Discount: $" + totaldiscount.toFixed(2) + "<br>" + "Mass sales tax: $" + tax.toFixed(2) + "<br>" + "Total: $" + total.toFixed(2));
+		}
+
+		//checks if order should be discounted
+		function checkDiscount(num)
+		{
+			if (num >= 20)
+			{
+				return true;
+			}
+			else
+			{
+			return false;
+			}
+		}
+
+		function salesTax(num)
+		{
+
+			num *=.0625;
+			return num;
+		}
+
+		
+	</script>
+
+</body>
+</html>
